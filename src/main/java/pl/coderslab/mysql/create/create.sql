@@ -1,6 +1,5 @@
 # task 1
 CREATE DATABASE products_ex CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE products_ex;
 
 #task 2
 CREATE TABLE products(id INT UNSIGNED AUTO_INCREMENT, name VARCHAR(45) NOT NULL, description VARCHAR(500), price DECIMAL(11,2) UNSIGNED, PRIMARY KEY (id));

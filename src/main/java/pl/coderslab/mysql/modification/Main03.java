@@ -2,7 +2,7 @@ package pl.coderslab.mysql.modification;
 
 public class Main03 {
     public String query1 = "INSERT INTO products SET id=0, name=produkt1, description=name, price=904";
-    public String query1fixed = "";
+    public String query1fixed = "";  //Solutions (fixed queries) in 'modification.sql' file
 
     public String query2 = "INSERT INTO clients VALUES(\"Jan\", \"Kowalski\", 4, \"Mr.\")";
     public String query2fixed = "";
