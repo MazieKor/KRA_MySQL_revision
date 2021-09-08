@@ -99,7 +99,15 @@ UPDATE cinemas SET address = 'Rynek Główny' WHERE TRIM(name) LIKE '%x' collate
 UPDATE cinemas SET name = 'BAJKA' WHERE name = 'bajka';
 UPDATE cinemas SET address = 'Rynek Główny Gliwice' WHERE TRIM(name) LIKE '%A' collate utf8mb4_0900_as_cs;
 
-DELETE FROM payments WHERE SUBDATE(NOW(),4) > payments.payment_date;
+DELETE FROM payments WHERE SUBDATE(NOW(),5) > payment_date;   #NEW odejmowanie 5 dni, warto zauważyć, że jeśli w payment date są w formacie date (więc czas implict 00:00:00) to sprzed 5 dni też mi skasuje pozycje  # in accordance with task content I have to also time with seconds take into account
+DELETE FROM payments WHERE DATEDIFF(NOW(),payment_date) > 5;  #NEW niby podobnie jak powyżej, ale inaczej DATEDIFF bierze pod uwagę tylko "date parts"  #here it takes into account only date part, so 3.09.21 (query executed on 8.09.21) is also retained in the result (in SUBDATE this row/ date was deleted)
+# some tests fo time format:
+SELECT TIME(payment_date) FROM payments;
+SELECT ADDDATE(LOCALTIME(),1);
+SELECT MAKETIME(839, 11, 22);
+SELECT STR_TO_DATE(20211231, '%Y%m%d');
+SELECT TIMESTAMP(NOW());
+SELECT @@session.time_zone;
 
 UPDATE movies SET rating = 5.4 WHERE CHAR_LENGTH(description) > 40;
 UPDATE movies SET rating = 5.4 WHERE CHAR_LENGTH(description) > 11;
