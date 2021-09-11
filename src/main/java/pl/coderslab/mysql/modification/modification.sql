@@ -1,21 +1,21 @@
 # task 3  - correction of queries from Main03.java
 USE products_ex;
-INSERT INTO products SET id=0, name='produkt1', description=name, price=904;  #NEW: 1. inny sposób umieszczania przez INSERT INTO, jak jakiejś kolumny nie podam wstawia mi defaulta (np. null (id też nie muszę). Jt odpowiednikiem INSET INTO ...VALUES z podaniem kolumn, które chce wypelnić przed VALUES  2. sposób przypisania do tabeli wartości jako inna tabela  3. id zamiast null mogę dać 0 i też mam auto increment (w INSERT INTO ... VALUES też działa) 4. mogę dać liczbę ujemną w kluczu głównym, jeśli nie dam unsigned, ale dając potem null mam kolejny numer dodatni, a nie kolejny ujemny  5. jak jakiś nr klucza głównego nie występuje (bo np. skasowałem), moge go przypisać ręcznie (np. id =2), ale dając id = null auto increment biegnie nie od tego nowo wstawionego (np. od 2, nawet jelsi 3 i 4 też są wolne), a z powrotem od tego, jak szedł wczesniej (czyli np. znowu 17, 18, 19). Ale jeśli wstawię jako 1. record 190, a potem dam null wstawi mi nie 1, a 191, jesli potem dam 1 wstawi 1, a potem null - wstawi 192. Wydaje mi się, że Auto_Increment patrzy na największy i jego zaczyna powiększać
-INSERT INTO clients VALUES(0, 'Jan', 'Kowalski');  #NEW mogę tu również umieścić zamiast wartości nazwę tabeli 'name' i wstawi w surname to samo co w name
+INSERT INTO products SET id=0, name='produkt1', description=name, price=904;
+INSERT INTO clients VALUES(0, 'Jan', 'Kowalski');
 
 use cinemas_ex;
 DESC movies;
 INSERT INTO movies(id, rating, title) VALUES(null, 5.3, 'Szybcy i wściekli');
 DESC payments;
-INSERT INTO payments SET id=90, type = 'cash', payment_date = NOW();   #NEW NOW()
+INSERT INTO payments SET id=90, type = 'cash', payment_date = NOW();
 INSERT INTO payments SET id=null, type = 'cash', payment_date = NOW();     # testing of AUTO_INCREMENT
 INSERT INTO payments SET id=190, type = 'cash', payment_date = NOW();
 INSERT INTO payments SET id=null, type = 'cash', payment_date = NOW();
 INSERT INTO payments SET id=1, type = 'cash', payment_date = NOW();
 INSERT INTO payments SET id=0, type = 'cash', payment_date = NOW();
 DELETE FROM payments;
-INSERT INTO payments SET id=0, type = 'cash', payment_date = NOW();         #test id
-DROP TABLE payments;                                                        # I recreate payment
+INSERT INTO payments SET id=0, type = 'cash', payment_date = NOW();         # test id after DELETE all lines
+DROP TABLE payments;                                                        # I drop and recreate payments
 
 
 

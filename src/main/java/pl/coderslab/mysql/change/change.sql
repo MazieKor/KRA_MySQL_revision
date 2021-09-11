@@ -12,7 +12,7 @@ ALTER TABLE tickets DROP COLUMN priceUSD;
 # task 2
 DESC movies;
 ALTER TABLE movies ADD watchCount MEDIUMINT UNSIGNED;
-ALTER TABLE movies ADD isTop TINYINT DEFAULT(0);    #NEW sprawdzić jak tu zrobić
+ALTER TABLE movies ADD isTop TINYINT DEFAULT(0);
 
 DESC cinemas;
 ALTER TABLE cinemas ADD openTime TIME;
