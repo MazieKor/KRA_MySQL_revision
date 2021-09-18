@@ -46,6 +46,8 @@ INSERT INTO payments VALUES (null, 'transfer', '2021-08-02');
 INSERT INTO payments VALUES (null, 'card', '2021-09-03');
 INSERT INTO payments VALUES (null, 'transfer', '2020-02-29');
 INSERT INTO payments VALUES (null, 'transfer', '2020-12-29');
+DELETE FROM payments WHERE id = 7;
+INSERT INTO payments VALUES (7, 'transfer', '2020:12:29');
 
 DESC tickets;
 INSERT INTO tickets SET quantity = 3, price = 92.99, status = 1;
@@ -66,17 +68,18 @@ SELECT * FROM tickets WHERE price > 50;
 SELECT * FROM tickets WHERE quantity > 3;
 SELECT title, rating FROM movies WHERE rating > 6.5;
 SELECT title, rating FROM movies ORDER BY rating DESC LIMIT 1;
-# SELECT title, MAX(rating) FROM movies;    #NEW pokaże mi pierwszy tytuł i max rating osobno, jeśli stosuje funkcje musze uważać przy 2 kolumnach, bo nie dopasuje mi wyniku funkci do kolumny. Chyba że stosuję np. GROUP BY (coś jeszcze?) wtedy zrobi grupy i do każdej grupy funckja sę dostosuje
+# SELECT title, MAX(rating) FROM movies;                      #TEST: can't be done like that
 
 
 
 # task 6
 SELECT SUM(quantity) AS Tickets FROM tickets;
-SELECT type, COUNT(type) AS Payment_type FROM payments GROUP BY type;   #NEW Bez type na początku też sCOUNTowałoby typy, ale wyświetliło bez kolumny type
+SELECT type, COUNT(type) AS Payment_type FROM payments GROUP BY type;
 SELECT AVG(price) AS 'Avarage ticket price' FROM tickets;
-SELECT ROUND(AVG(price),2) AS 'Avarage ticket price' FROM tickets;      #NEW Sposób na zaokrąglenie, moge zarówno Decimale jak i inty zaokrąglać, jak nie dam liczby po precinku zaokrągli i do całości
+SELECT ROUND(AVG(price),2) AS 'Avarage ticket price' FROM tickets;
+SELECT (SELECT SUM(price) FROM tickets) / (SELECT COUNT(*) FROM tickets) AS AVERAGE;
 SELECT * FROM payments ORDER BY payment_date DESC LIMIT 1, 5;
-SELECT * FROM payments GROUP BY type HAVING COUNT(payment_date) > 2;    #NEW jeśli daję GROUP BY funkcje (np. liczenia, sumowania) działają wewnątrz zdefiniowanych grup. Pytanie: jak zrobic by pokazło wszysko w danej grupie?
+SELECT * FROM payments GROUP BY type HAVING COUNT(type) > 1;
 SELECT SUM(quantity) FROM tickets WHERE price > 23.15;
 SELECT SUM(quantity) FROM tickets WHERE price > 60;
 
@@ -95,12 +98,12 @@ INSERT INTO cinemas VALUES (null, 'cinema ZzZ ', 'Zakopane', '11:00', '20:59');
 
 UPDATE cinemas SET address = 'Stadion Narodowy' WHERE name LIKE '%z';
 UPDATE cinemas SET address = 'Stadion Narodowy' WHERE TRIM(name) LIKE '%z';
-UPDATE cinemas SET address = 'Rynek Główny' WHERE TRIM(name) LIKE '%x' collate utf8mb4_0900_bin;   # testing working with binary and case_sensitive collations
+UPDATE cinemas SET address = 'Rynek Główny' WHERE TRIM(name) LIKE '%x' collate utf8mb4_0900_bin;          # testing working with binary and case_sensitive collations
 UPDATE cinemas SET name = 'BAJKA' WHERE name = 'bajka';
 UPDATE cinemas SET address = 'Rynek Główny Gliwice' WHERE TRIM(name) LIKE '%A' collate utf8mb4_0900_as_cs;
 
-DELETE FROM payments WHERE SUBDATE(NOW(),5) > payment_date;   #NEW odejmowanie 5 dni, warto zauważyć, że jeśli w payment date są w formacie date (więc czas implict 00:00:00) to sprzed 5 dni też mi skasuje pozycje  # in accordance with task content I have to also time with seconds take into account
-DELETE FROM payments WHERE DATEDIFF(NOW(),payment_date) > 5;  #NEW niby podobnie jak powyżej, ale inaczej DATEDIFF bierze pod uwagę tylko "date parts"  #here it takes into account only date part, so 3.09.21 (query executed on 8.09.21) is also retained in the result (in SUBDATE this row/ date was deleted)
+DELETE FROM payments WHERE SUBDATE(NOW(),5) > payment_date;                                               # in accordance with task content I have to also time with seconds take into account
+DELETE FROM payments WHERE DATEDIFF(NOW(),payment_date) > 5;                                              # here it takes into account only date part, so 3.09.21 (query executed on 8.09.21) is also retained in the result (in SUBDATE this row/ date was deleted)
 # some tests fo time format:
 SELECT TIME(payment_date) FROM payments;
 SELECT ADDDATE(LOCALTIME(),1);
@@ -112,7 +115,7 @@ SELECT @@session.time_zone;
 UPDATE movies SET rating = 5.4 WHERE CHAR_LENGTH(description) > 40;
 UPDATE movies SET rating = 5.4 WHERE CHAR_LENGTH(description) > 11;
 
-UPDATE tickets SET quantity = 12, status = 0 WHERE status IS NULL;       #NEW jak szukam komórki z nullem to nie robię '= null' ale IS NULL (choć nie sprawdzałem czy '= null' też by zadziałało, błędu nie pokazało)
+UPDATE tickets SET quantity = 12, status = 0 WHERE status IS NULL;
 UPDATE tickets SET price = price * 0.5 WHERE quantity > 10;
 
 SELECT ROUND(rating,2)from movies;

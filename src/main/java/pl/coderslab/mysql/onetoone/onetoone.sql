@@ -20,7 +20,7 @@ DESC payments;
 ALTER TABLE payments MODIFY COLUMN id INT UNSIGNED, ADD FOREIGN KEY (id) REFERENCES tickets(id);
 INSERT INTO payments VALUES (2, 'cash', 20210907);
 INSERT INTO payments SET id = 1, type = 'transfer', payment_date = '2021-09-01';
-INSERT INTO payments VALUES (5, 'card', CURTIME());            #NEW mogę tak uzupełnić kolumnę
+INSERT INTO payments VALUES (5, 'card', CURTIME());
 INSERT INTO payments VALUES (3, 'card', LOCALTIME);
 INSERT INTO payments VALUES (7, 'cash', 20210831);
 INSERT INTO payments VALUES (6, 'card', '2021-07-30');

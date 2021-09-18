@@ -24,4 +24,4 @@ INSERT INTO opinions(description, products_id) VALUES ('leather jacket is so bea
                   ('jeans has grat color', 5),
                   ('shipping of shorts took too much time. Be careful', 3);
 
-SELECT DISTINCT description FROM 'opinions';
+SELECT DISTINCT description FROM opinions;
